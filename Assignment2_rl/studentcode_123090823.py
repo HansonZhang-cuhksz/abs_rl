@@ -1,10 +1,11 @@
 #Written by Nathan A-M =^)
 #Buffer-based implementation using 
 #A Buffer-based approach as a reference
+import json
 
 bitrate = 0 #used to save previous bitrate
 
-def student_entrypoint(Measured_Bandwidth, Previous_Throughput, Buffer_Occupancy, Available_Bitrates, Video_Time, Chunk, Rebuffering_Time, Preferred_Bitrate ):
+def student_entrypoint(Measured_Bandwidth, Previous_Throughput, Buffer_Occupancy, Available_Bitrates, Video_Time, Chunk, Rebuffering_Time, Preferred_Bitrate):
     #student can do whatever they want from here going forward
     global bitrate
     R_i = list(Available_Bitrates.items())
