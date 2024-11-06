@@ -1,0 +1,30 @@
+badtest: 
+Results:Average bitrate:1000000.0buffer time:2.132switches:0
+Score:896410.0696952391
+
+
+testALThard: 
+Results:Average bitrate:1000000.0buffer time:2.064999999999998switches:0
+Score:899496.0176356066
+
+
+testALTsoft: 
+Results:Average bitrate:650000.0buffer time:2.016switches:1
+Score:539252.2579502048
+
+
+testHD: 
+Results:Average bitrate:650000.0buffer time:2.015switches:1
+Score:539279.9186844201
+
+
+testHDmanPQtrace: 
+Results:Average bitrate:300000.0buffer time:1714.4340000000002switches:29
+Score:1.7201240084758598e-34
+
+
+testPQ: 
+Results:Average bitrate:300000.0buffer time:1736.9349999999997switches:29
+Score:5.423986502496992e-35
+
+

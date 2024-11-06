@@ -47,6 +47,8 @@ class Scorecard:
         for chunk in self.chunk_info:
             total += int(chunk["chunk"][0])
 
+        if len(self.chunk_info) == 0:
+            return 0
         avg = total / len(self.chunk_info)
         return avg
 
