@@ -8,17 +8,18 @@ import json
 from rl_grader import *  # Import the grading functions
 import threading
 
-import socket
+# import socket
 import studentcode_123090823 as studentcode
+import simulator
 
 
-# Quick-and-dirty TCP Server:
-# ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM | socket.SOCK_CLOEXEC)
-ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-ss.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-ss.bind(('localhost', 6000))
-ss.listen(10)
-# print('Waiting for simulator')
+# # Quick-and-dirty TCP Server:
+# # ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM | socket.SOCK_CLOEXEC)
+# ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# ss.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+# ss.bind(('localhost', 6000))
+# ss.listen(10)
+# # print('Waiting for simulator')
 
 # Define the DQN network
 class DQN(nn.Module):
@@ -120,19 +121,21 @@ class Simulator:
         # self.current = 0
         # return states[0]
         # return self.recv_command(0)
+        simulator.init()
+
         return [0, 0, 0, 0, 0, 0, 0]
 
-    def step(self, action, state):
+    def step(self, action):
         selected_bitrate = self.available_bitrates[action]  # Get selected bitrate (in Kbps)
         chunk_size = (selected_bitrate * 1000) * self.chunk_time / 8  # Convert to bytes
 
-        self.measured_bandwidth = state[0]
-        self.previous_throughput = state[1]
-        self.buffer_size = state[2]
-        self.buffer_occupancy = state[3]
-        self.buffer_time = state[4]
-        self.video_time = state[5]
-        self.rebuffering_time = state[6]
+        # self.measured_bandwidth = state[0]
+        # self.previous_throughput = state[1]
+        # self.buffer_size = state[2]
+        # self.buffer_occupancy = state[3]
+        # self.buffer_time = state[4]
+        # self.video_time = state[5]
+        # self.rebuffering_time = state[6]
 
         # Simulate downloading the chunk based on the selected bitrate
         if self.measured_bandwidth < selected_bitrate:
@@ -172,24 +175,24 @@ class Simulator:
 
         return next_state, reward, done
 
-    def recv_command(self, action):
-        messagepart = clientsocket.recv(2048).decode()
+    # def recv_command(self, action):
+    #     messagepart = clientsocket.recv(2048).decode()
 
-        # message += messagepart
-        # if message[-1] == '\n':
+    #     # message += messagepart
+    #     # if message[-1] == '\n':
 
 
-        jsonargs = json.loads(messagepart)
-        # message = ""
-        if(jsonargs["exit"] != 0):
-            return "exit"
+    #     jsonargs = json.loads(messagepart)
+    #     # message = ""
+    #     if(jsonargs["exit"] != 0):
+    #         return "exit"
         
-        state = [jsonargs["Measured Bandwidth"], jsonargs["Previous Throughput"], jsonargs["Buffer Occupancy"]["size"], jsonargs["Buffer Occupancy"]["current"], jsonargs["Buffer Occupancy"]["time"], jsonargs["Video Time"], jsonargs["Rebuffering Time"]]
-        bitrate = self.available_bitrates[action]
-        # bitrate = studentcode.student_entrypoint(jsonargs["Measured Bandwidth"], jsonargs["Previous Throughput"], jsonargs["Buffer Occupancy"], jsonargs["Available Bitrates"], jsonargs["Video Time"], jsonargs["Chunk"], jsonargs["Rebuffering Time"], jsonargs["Preferred Bitrate"])
-        payload = json.dumps({"bitrate" : bitrate}) + '\n'
-        clientsocket.sendall(payload.encode())
-        return state
+    #     state = [jsonargs["Measured Bandwidth"], jsonargs["Previous Throughput"], jsonargs["Buffer Occupancy"]["size"], jsonargs["Buffer Occupancy"]["current"], jsonargs["Buffer Occupancy"]["time"], jsonargs["Video Time"], jsonargs["Rebuffering Time"]]
+    #     bitrate = self.available_bitrates[action]
+    #     # bitrate = studentcode.student_entrypoint(jsonargs["Measured Bandwidth"], jsonargs["Previous Throughput"], jsonargs["Buffer Occupancy"], jsonargs["Available Bitrates"], jsonargs["Video Time"], jsonargs["Chunk"], jsonargs["Rebuffering Time"], jsonargs["Preferred Bitrate"])
+    #     payload = json.dumps({"bitrate" : bitrate}) + '\n'
+    #     clientsocket.sendall(payload.encode())
+    #     return state
 
 
 # def get_states():
@@ -201,8 +204,8 @@ class Simulator:
 #         states.append([state["Measured_Bandwidth"], state["Previous_Throughput"], state["Buffer_Occupancy"]["size"], state["Buffer_Occupancy"]["current"], state["Buffer_Occupancy"]["time"], state["Video_Time"], state["Rebuffering_Time"]])
 #     return states
 
-def run_simulator_code():
-    output = subprocess.run(['python', 'simulator.py', './tests/badtest/trace.txt', './tests/badtest/manifest.json', ""], capture_output=True)
+# def run_simulator_code():
+#     output = subprocess.run(['python', 'simulator.py', './tests/badtest/trace.txt', './tests/badtest/manifest.json', ""], capture_output=True)
 
 def train_agent(episodes, save_path="dqn_model.pth"):
     global ss
@@ -214,25 +217,27 @@ def train_agent(episodes, save_path="dqn_model.pth"):
     action_size = 3  # Change this to the number of available bitrates
     agent = DQNAgent(state_size, action_size)
     manifest = Manifest("./tests/badtest/manifest.json")
-    simulator = Simulator(manifest)
+    # simulator = Simulator(manifest)
 
     for e in range(episodes):
         print("Episode:", e + 1)
 
         #run simulator process
-        simulator_thread = threading.Thread(target=run_simulator_code)
-        simulator_thread.start()
+        # simulator_thread = threading.Thread(target=run_simulator_code)
+        # simulator_thread.start()
 
-        (clientsocket, address) = ss.accept()
+        # (clientsocket, address) = ss.accept()
 
-        state = simulator.reset()
+        # state = simulator.reset()
+        simulator.init()
         done = False
         total_reward = 0
 
         while not done:
         # for state in states:
-            action = agent.act(state)
-            next_state, reward, done = simulator.step(action, state)  # Get the next state and reward
+            # action = agent.act(state)
+            action, reward, next_state = simulator.loop(agent)
+            # next_state, reward, done = simulator.step(action)  # Get the next state and reward
             agent.remember(state, action, reward, next_state, done)
             state = next_state
             total_reward += reward
@@ -251,7 +256,7 @@ def train_agent(episodes, save_path="dqn_model.pth"):
             }, save_path)
             print(f"Model saved to {save_path}")
 
-        simulator_thread.join()
+        # simulator_thread.join()
 
 if __name__ == "__main__":
     train_agent(1000)  # Train for 1000 episodes

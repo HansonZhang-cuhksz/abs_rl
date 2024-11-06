@@ -54,102 +54,131 @@ def prep_chunk(chunks_rem, manifest, chunk_num):
                 }
     return params
 
+def sim_grade(measured_bandwidth, selected_bitrate):
+    # Simulate downloading the chunk based on the selected bitrate
+    if measured_bandwidth < selected_bitrate:
+        reward = -1  # Penalty for rebuffering
+    else:
+        reward = 1  # Reward for successful playback
+    return reward
 
 # if __name__ == "__main__":
-class official_sim:
-    def __init__(self, trace_file, manifest_file):
-        #check arguments for relevant flags
+def init():
+    global verbose, trace, manifest, logger, buffer, chunks_remaining, current_time, prev_throughput, rebuff_time, pref_bitrate, stu_chunk_size, chunk_list, chunk_iter
+    global chunknum, chunk
 
-        # if "-v" in sys.argv or "--verbose" in sys.argv:
-        #     verbose = True
-        verbose = False
+    #check arguments for relevant flags
+
+    if "-v" in sys.argv or "--verbose" in sys.argv:
+        verbose = True
 
 
-        #Load in network trace from input file
+    #Load in network trace from input file
 
-        # trace = loadtrace(sys.argv[1])
-        self.trace = loadtrace(trace_file)
+    trace = loadtrace(sys.argv[1])
 
-        #read video manifest
+    #read video manifest
 
-        # manifest = loadmanifest(sys.argv[2])
-        self.manifest = loadmanifest(manifest_file)
+    manifest = loadmanifest(sys.argv[2])
 
-        #create scorecard for logging
+    #create scorecard for logging
 
-        self.logger = Scorecard.Scorecard(1, 1, 1)
+    logger = Scorecard.Scorecard(1, 1, 1)
 
-        #simulator setup
+    #simulator setup
 
-        self.buffer = SimBuffer.SimBuffer(manifest["Buffer_Size"])
+    buffer = SimBuffer.SimBuffer(manifest["Buffer_Size"])
 
-        self.chunks_remaining = manifest["Chunk_Count"]
-        self.current_time = 0
-        self.prev_throughput = 0
-        self.rebuff_time = 0
-        self.pref_bitrate = manifest["Preferred_Bitrate"]
+    chunks_remaining = manifest["Chunk_Count"]
+    current_time = 0
+    prev_throughput = 0
+    rebuff_time = 0
+    pref_bitrate = manifest["Preferred_Bitrate"]
 
-        self.stu_chunk_size = None
+    stu_chunk_size = None
 
-        self.chunk_list = [(key, value) for key, value in manifest["Chunks"].items()]
+    chunk_list = [(key, value) for key, value in manifest["Chunks"].items()]
 
-        self.chunk_iter = chunk_list.__iter__()
+    chunk_iter = chunk_list.__iter__()
 
-        #Communication loop with student (for all chunks):
+    #Communication loop with student (for all chunks):
 
-        self.chunknum, self.chunk = next(chunk_iter, None)
+    chunknum, chunk = next(chunk_iter, None)
 
-    def official_sim_loop(self):
+def loop(agent):
+    # while chunk:
+    if chunk:
         #calculate and pack info to be sent to student
         # todo ensure input types are correct
-        m_band = self.trace.get_current_timesegment(self.current_time)[1]
-        buf_occ = self.buffer.get_student_params()
-        av_bitrates = prep_bitrates(self.manifest["Available_Bitrates"], self.chunk)
-        chunk_arg = prep_chunk(self.chunks_remaining, self.manifest, self.chunknum)
+        m_band = trace.get_current_timesegment(current_time)[1]
+        buf_occ = buffer.get_student_params()
+        av_bitrates = prep_bitrates(manifest["Available_Bitrates"],chunk)
+        chunk_arg = prep_chunk(chunks_remaining, manifest, chunknum)
 
 
 
 
 
         #send info to student, get response
-        chosen_bitrate = simulator_comm.send_req_json(m_band, prev_throughput, buf_occ, av_bitrates, current_time, chunk_arg, rebuff_time, pref_bitrate)
-
+        #chosen_bitrate = simulator_comm.send_req_json(m_band, prev_throughput, buf_occ, av_bitrates, current_time, chunk_arg, rebuff_time, pref_bitrate)
+        state = [m_band, prev_throughput, buf_occ["size"], buf_occ["current"], buf_occ["time"], current_time, rebuff_time]
+        action = agent.act(state)
+        chosen_bitrate = av_bitrates[action]
 
         #bad response checking, ensure chunk fits in buffer
         try:
-            self.stu_chunk_size = av_bitrates[int(chosen_bitrate)]
+            stu_chunk_size = av_bitrates[int(chosen_bitrate)]
         except( KeyError ):
             print("Student returned invalid bitrate, exiting")
-            break
+            # break
+            return
 
-        if self.stu_chunk_size > self.buffer.available_space():
+        if stu_chunk_size > buffer.available_space():
             #chunk chosen does not fit in buffer, wait .5s and resend request
-            buffer_time = self.buffer.burn_time(.5)
-            self.current_time += .5
-            continue
+            buffer_time = buffer.burn_time(.5)
+            current_time += .5
+            # continue
+            return
 
 
-        self.logger.log_bitrate_choice(self.current_time, self.chunknum, (chosen_bitrate, self.stu_chunk_size))
+        logger.log_bitrate_choice(current_time, chunknum, (chosen_bitrate, stu_chunk_size))
 
         #simulate download and playback
-        time_elapsed = self.trace.simulate_download_from_time(self.current_time, self.stu_chunk_size)
+        time_elapsed = trace.simulate_download_from_time(current_time, stu_chunk_size)
 
         #round time to remove floating point errors
         #todo: this did not fix them
         time_elapsed = round(time_elapsed, 3)
 
-        self.rebuff_time = self.buffer.sim_chunk_download(self.stu_chunk_size, chunk_arg["time"], time_elapsed)
+        rebuff_time = buffer.sim_chunk_download(stu_chunk_size, chunk_arg["time"], time_elapsed)
 
         #update state variables
         prev_throughput = (stu_chunk_size * 8) / time_elapsed
-        self.current_time += time_elapsed
-        self.chunks_remaining -= 1
+        current_time += time_elapsed
+        chunks_remaining -= 1
 
-        self.logger.log_rebuffer(self.current_time - self.rebuff_time, self.rebuff_time)
+        logger.log_rebuffer(current_time - rebuff_time, rebuff_time)
 
         #log actions
 
-
-
         #get next chunk
         chunknum, chunk = next(chunk_iter, (None, None))
+
+        m_band = trace.get_current_timesegment(current_time)[1]
+        buf_occ = buffer.get_student_params()
+        av_bitrates = prep_bitrates(manifest["Available_Bitrates"],chunk)
+        chunk_arg = prep_chunk(chunks_remaining, manifest, chunknum)
+        next_state = [m_band, prev_throughput, buf_occ["size"], buf_occ["current"], buf_occ["time"], current_time, rebuff_time]
+
+        reward = sim_grade(m_band, chosen_bitrate)
+
+        return action, reward, next_state
+
+
+    # #cleanup and return
+    # simulator_comm.send_exit()
+
+    # if(verbose):
+    #     logger.output_verbose()
+    # else:
+    #     logger.output_results()
