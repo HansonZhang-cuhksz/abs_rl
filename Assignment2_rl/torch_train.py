@@ -208,8 +208,8 @@ class Simulator:
 #     output = subprocess.run(['python', 'simulator.py', './tests/badtest/trace.txt', './tests/badtest/manifest.json', ""], capture_output=True)
 
 def train_agent(episodes, save_path="dqn_model.pth"):
-    global ss
-    global clientsocket
+    # global ss
+    # global clientsocket
 
     # states = get_states()
 

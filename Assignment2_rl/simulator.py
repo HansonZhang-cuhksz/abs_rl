@@ -1,6 +1,6 @@
 import sys
 import json
-from Classes import SimBuffer, NetworkTrace, Scorecard, simulator_comm
+from Classes import SimBuffer, NetworkTrace, Scorecard#, simulator_comm
 
 #this file was written by Zach Peats
 #This is the video download and playback simulator for an ABR algorithm lab.
