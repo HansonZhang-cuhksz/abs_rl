@@ -63,17 +63,23 @@ class DQNAgent:
     def __init__(self, state_size, action_size):
         self.state_size = state_size
         self.action_size = action_size
-        self.memory = deque(maxlen=2000)
+        self.memory = deque(maxlen=10000)
         self.gamma = 0.99  # discount rate
         self.epsilon = 1.0  # exploration rate
-        self.epsilon_min = 0.01
-        self.epsilon_decay = 0.995
+        self.epsilon_min = 0.05
+        self.epsilon_decay = 0.9999
         self.model = DQN(state_size, action_size)
+        self.target_model = DQN(state_size, action_size)  # Target network
+        self.update_target_model()
         self.optimizer = optim.Adam(self.model.parameters(), lr=0.001)
         self.loss = 0
 
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.model.to(self.device)
+        self.target_model.to(self.device)
+    
+    def update_target_model(self):
+        self.target_model.load_state_dict(self.model.state_dict())
 
     def remember(self, state, action, reward, next_state, done):
         self.memory.append((state, action, reward, next_state, done))
@@ -112,7 +118,7 @@ def train_agent(epoches, episodes, save_path="dqn_model.pth"):
     tasks = ["badtest", "testALThard", "testALTsoft", "testHD"]
     tasks += ["testHDmanPQtrace", "testPQ"]
 
-    state_size = 7  # Change this to the number of state variables you have
+    state_size = 10  # Change this to the number of state variables you have
     action_size = 3  # Change this to the number of available bitrates
     agent = DQNAgent(state_size, action_size)
 
@@ -127,18 +133,21 @@ def train_agent(epoches, episodes, save_path="dqn_model.pth"):
                 rl_simulator.init(trace_path, manifest_path)
                 done = False
                 total_reward = 0
+                score = 0
 
                 while not done:
                 # for state in states:
                     # action = agent.act(state)
 
-                    action, reward, next_state, state, done = rl_simulator.loop(agent)
+                    action, reward, next_state, state, score, done = rl_simulator.loop(agent, score)
                     # print(action, reward, next_state, state, done)
                     # next_state, reward, done = simulator.step(action)  # Get the next state and reward
                     agent.remember(state, action, reward, next_state, done)
                     # state = next_state
                     total_reward += reward
                     # print("Reward: ", reward, "Time:, ", state[5])
+                    if done:
+                        agent.update_target_model()
 
                 agent.replay(64)  # Replay experience and update the model
                 print(f"Episode: {e+1}/{episodes}, Total Reward: {total_reward}, Epsilon: {agent.epsilon:.2f}, Time: {time.time() - start_time:.2f}")
@@ -148,8 +157,8 @@ def train_agent(epoches, episodes, save_path="dqn_model.pth"):
                 # print(f"Episode: {e+1}/{episodes}, Total Reward: {total_reward}, Epsilon: {agent.epsilon:.2f}")
             
             print(f"Task: {task}, Total Reward: {total_reward}, Epsilon: {agent.epsilon:.2f}")
+            print("In Epoch: ", ep + 1)
             torch.save({
-                'epoch': e,
                 'model_state_dict': agent.model.state_dict(),  # Save model weights
                 'optimizer_state_dict': agent.optimizer.state_dict(),  # Save optimizer state
                 'loss': agent.loss,  # Save the current loss

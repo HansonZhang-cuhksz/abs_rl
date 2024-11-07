@@ -1,0 +1,512 @@
+{
+    "0": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 0,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 0,
+            "time": 0
+        },
+        "Video_Time": 0,
+        "Chunk": {
+            "left": 30,
+            "time": 2,
+            "current": "0"
+        },
+        "Rebuffering_Time": 0,
+        "Preferred_Bitrate": null
+    },
+    "1.001": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 999512.4875124876,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 125064,
+            "time": 2
+        },
+        "Video_Time": 1.001,
+        "Chunk": {
+            "left": 29,
+            "time": 2,
+            "current": "1"
+        },
+        "Rebuffering_Time": 1.001,
+        "Preferred_Bitrate": null
+    },
+    "2.01": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 999738.3548067395,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 251156,
+            "time": 2.991
+        },
+        "Video_Time": 2.01,
+        "Chunk": {
+            "left": 28,
+            "time": 2,
+            "current": "2"
+        },
+        "Rebuffering_Time": 0,
+        "Preferred_Bitrate": null
+    },
+    "3.013": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 1000135.593220339,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 251484,
+            "time": 3.9880000000000004
+        },
+        "Video_Time": 3.013,
+        "Chunk": {
+            "left": 27,
+            "time": 2,
+            "current": "3"
+        },
+        "Rebuffering_Time": 0,
+        "Preferred_Bitrate": null
+    },
+    "13.092": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 1000011.9059430498,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1259890,
+            "time": 2
+        },
+        "Video_Time": 13.092,
+        "Chunk": {
+            "left": 26,
+            "time": 2,
+            "current": "4"
+        },
+        "Rebuffering_Time": 6.091000000000001,
+        "Preferred_Bitrate": null
+    },
+    "14.095": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 1000119.6410767698,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1385280,
+            "time": 2.997
+        },
+        "Video_Time": 14.095,
+        "Chunk": {
+            "left": 25,
+            "time": 2,
+            "current": "5"
+        },
+        "Rebuffering_Time": 0,
+        "Preferred_Bitrate": null
+    },
+    "15.077": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 1000309.5723014256,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1508068,
+            "time": 4.015000000000001
+        },
+        "Video_Time": 15.077,
+        "Chunk": {
+            "left": 24,
+            "time": 2,
+            "current": "6"
+        },
+        "Rebuffering_Time": 0,
+        "Preferred_Bitrate": null
+    },
+    "25.031": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 999995.9815149688,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1244245,
+            "time": 2
+        },
+        "Video_Time": 25.031,
+        "Chunk": {
+            "left": 23,
+            "time": 2,
+            "current": "7"
+        },
+        "Rebuffering_Time": 5.939,
+        "Preferred_Bitrate": null
+    },
+    "26.052999999999997": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 1000211.350293542,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1372022,
+            "time": 2.9779999999999998
+        },
+        "Video_Time": 26.052999999999997,
+        "Chunk": {
+            "left": 22,
+            "time": 2,
+            "current": "8"
+        },
+        "Rebuffering_Time": 0,
+        "Preferred_Bitrate": null
+    },
+    "27.065999999999995": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 999770.977295163,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 254373,
+            "time": 3.965
+        },
+        "Video_Time": 27.065999999999995,
+        "Chunk": {
+            "left": 21,
+            "time": 2,
+            "current": "9"
+        },
+        "Rebuffering_Time": 0,
+        "Preferred_Bitrate": null
+    },
+    "29.134999999999994": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 999760.2706621557,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 385159,
+            "time": 3.896
+        },
+        "Video_Time": 29.134999999999994,
+        "Chunk": {
+            "left": 20,
+            "time": 2,
+            "current": "10"
+        },
+        "Rebuffering_Time": 0,
+        "Preferred_Bitrate": null
+    },
+    "39.10399999999999": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 1000005.6174139834,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1246132,
+            "time": 2
+        },
+        "Video_Time": 39.10399999999999,
+        "Chunk": {
+            "left": 19,
+            "time": 2,
+            "current": "11"
+        },
+        "Rebuffering_Time": 6.072999999999999,
+        "Preferred_Bitrate": null
+    },
+    "40.11399999999999": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 999778.2178217822,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1372354,
+            "time": 2.99
+        },
+        "Video_Time": 40.11399999999999,
+        "Chunk": {
+            "left": 18,
+            "time": 2,
+            "current": "12"
+        },
+        "Rebuffering_Time": 0,
+        "Preferred_Bitrate": null
+    },
+    "41.11699999999999": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 999633.1006979063,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 251551,
+            "time": 3.987
+        },
+        "Video_Time": 41.11699999999999,
+        "Chunk": {
+            "left": 17,
+            "time": 2,
+            "current": "13"
+        },
+        "Rebuffering_Time": 0,
+        "Preferred_Bitrate": null
+    },
+    "51.15499999999999": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 999967.3241681609,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1254709,
+            "time": 2
+        },
+        "Video_Time": 51.15499999999999,
+        "Chunk": {
+            "left": 16,
+            "time": 2,
+            "current": "14"
+        },
+        "Rebuffering_Time": 6.051,
+        "Preferred_Bitrate": null
+    },
+    "52.152999999999984": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 999783.5671342686,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1379432,
+            "time": 3.002
+        },
+        "Video_Time": 52.152999999999984,
+        "Chunk": {
+            "left": 15,
+            "time": 2,
+            "current": "15"
+        },
+        "Rebuffering_Time": 0,
+        "Preferred_Bitrate": null
+    },
+    "62.246999999999986": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 1000035.6647513375,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1261795,
+            "time": 2
+        },
+        "Video_Time": 62.246999999999986,
+        "Chunk": {
+            "left": 14,
+            "time": 2,
+            "current": "16"
+        },
+        "Rebuffering_Time": 7.091999999999999,
+        "Preferred_Bitrate": null
+    },
+    "63.25199999999999": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 999912.4378109453,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1387409,
+            "time": 2.995
+        },
+        "Video_Time": 63.25199999999999,
+        "Chunk": {
+            "left": 13,
+            "time": 2,
+            "current": "17"
+        },
+        "Rebuffering_Time": 0,
+        "Preferred_Bitrate": null
+    },
+    "64.24799999999999": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 1000160.6425702812,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 250134,
+            "time": 3.999
+        },
+        "Video_Time": 64.24799999999999,
+        "Chunk": {
+            "left": 12,
+            "time": 2,
+            "current": "18"
+        },
+        "Rebuffering_Time": 0,
+        "Preferred_Bitrate": null
+    },
+    "74.207": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 1000041.7712621749,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1244927,
+            "time": 2
+        },
+        "Video_Time": 74.207,
+        "Chunk": {
+            "left": 11,
+            "time": 2,
+            "current": "19"
+        },
+        "Rebuffering_Time": 5.959999999999999,
+        "Preferred_Bitrate": null
+    },
+    "75.195": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 1000186.2348178137,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1368450,
+            "time": 3.012
+        },
+        "Video_Time": 75.195,
+        "Chunk": {
+            "left": 10,
+            "time": 2,
+            "current": "20"
+        },
+        "Rebuffering_Time": 0,
+        "Preferred_Bitrate": null
+    },
+    "85.139": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 1000018.5036202734,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1243023,
+            "time": 2
+        },
+        "Video_Time": 85.139,
+        "Chunk": {
+            "left": 9,
+            "time": 2,
+            "current": "21"
+        },
+        "Rebuffering_Time": 6.932,
+        "Preferred_Bitrate": null
+    },
+    "86.12899999999999": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 1000016.1616161616,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1366775,
+            "time": 3.01
+        },
+        "Video_Time": 86.12899999999999,
+        "Chunk": {
+            "left": 8,
+            "time": 2,
+            "current": "22"
+        },
+        "Rebuffering_Time": 0,
+        "Preferred_Bitrate": null
+    },
+    "96.154": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 999973.6658354114,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1253092,
+            "time": 2
+        },
+        "Video_Time": 96.154,
+        "Chunk": {
+            "left": 7,
+            "time": 2,
+            "current": "23"
+        },
+        "Rebuffering_Time": 7.015000000000001,
+        "Preferred_Bitrate": null
+    },
+    "97.15599999999999": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 1000383.2335329341,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1378390,
+            "time": 2.998
+        },
+        "Video_Time": 97.15599999999999,
+        "Chunk": {
+            "left": 6,
+            "time": 2,
+            "current": "24"
+        },
+        "Rebuffering_Time": 0,
+        "Preferred_Bitrate": null
+    },
+    "98.13799999999999": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 999975.5600814665,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1501137,
+            "time": 4.016
+        },
+        "Video_Time": 98.13799999999999,
+        "Chunk": {
+            "left": 5,
+            "time": 2,
+            "current": "25"
+        },
+        "Rebuffering_Time": 0,
+        "Preferred_Bitrate": null
+    },
+    "108.228": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 1000009.514370664,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1261262,
+            "time": 2
+        },
+        "Video_Time": 108.228,
+        "Chunk": {
+            "left": 4,
+            "time": 2,
+            "current": "26"
+        },
+        "Rebuffering_Time": 6.074,
+        "Preferred_Bitrate": null
+    },
+    "109.225": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 999775.3259779338,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1385859,
+            "time": 3.003
+        },
+        "Video_Time": 109.225,
+        "Chunk": {
+            "left": 3,
+            "time": 2,
+            "current": "27"
+        },
+        "Rebuffering_Time": 0,
+        "Preferred_Bitrate": null
+    },
+    "119.342": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 999974.696056143,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1264593,
+            "time": 2
+        },
+        "Video_Time": 119.342,
+        "Chunk": {
+            "left": 2,
+            "time": 2,
+            "current": "28"
+        },
+        "Rebuffering_Time": 7.114000000000001,
+        "Preferred_Bitrate": null
+    },
+    "120.337": {
+        "Measured_Bandwidth": 1000000.0,
+        "Previous_Throughput": 1000096.4824120603,
+        "Buffer_Occupancy": {
+            "size": 40000000,
+            "current": 1388980,
+            "time": 3.005
+        },
+        "Video_Time": 120.337,
+        "Chunk": {
+            "left": 1,
+            "time": 2,
+            "current": "29"
+        },
+        "Rebuffering_Time": 0,
+        "Preferred_Bitrate": null
+    }
+}

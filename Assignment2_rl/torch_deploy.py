@@ -2,11 +2,11 @@ import torch
 from torch_train import DQN  # Replace with your model class
 
 # Check if CUDA is available and set the device
-device = 'cpu' #torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # Load the trained model
 checkpoint = torch.load('dqn_model.pth', weights_only=True)
-model = DQN(7, 3)  # Replace with your model class
+model = DQN(10, 3)  # Replace with your model class
 model.load_state_dict(checkpoint['model_state_dict'])
 model.to(device)  # Move the model to the GPU
 model.eval()  # Set to evaluation mode for inference

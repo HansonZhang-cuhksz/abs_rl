@@ -113,7 +113,7 @@ def init(trace_pth, manifest_pth):
     total_time = logger.get_buffer_time()
     num_switches = len(logger.switches)
 
-def loop(agent):
+def loop(agent, last_score):
     global verbose, trace, manifest, logger, buffer, chunks_remaining, current_time, prev_throughput, rebuff_time, pref_bitrate, stu_chunk_size, chunk_list, chunk_iter
     global chunknum, chunk
 
@@ -134,7 +134,7 @@ def loop(agent):
 
         #send info to student, get response
         #chosen_bitrate = simulator_comm.send_req_json(m_band, prev_throughput, buf_occ, av_bitrates, current_time, chunk_arg, rebuff_time, pref_bitrate)
-        state = [m_band, prev_throughput, buf_occ["size"], buf_occ["current"], buf_occ["time"], current_time, rebuff_time]# + [int(btr) for btr in sorted(av_bitrates.keys())]
+        state = [m_band, prev_throughput, buf_occ["size"], buf_occ["current"], buf_occ["time"], current_time, rebuff_time] + [int(btr) for btr in sorted(av_bitrates.keys())]
         action = agent.act(state)
         if action >= len(av_bitrates):
             action = len(av_bitrates) - 1
@@ -183,7 +183,7 @@ def loop(agent):
         buf_occ = buffer.get_student_params()
         av_bitrates = prep_bitrates(manifest["Available_Bitrates"],chunk)
         chunk_arg = prep_chunk(chunks_remaining, manifest, chunknum)
-        next_state = [m_band, prev_throughput, buf_occ["size"], buf_occ["current"], buf_occ["time"], current_time, rebuff_time]
+        next_state = [m_band, prev_throughput, buf_occ["size"], buf_occ["current"], buf_occ["time"], current_time, rebuff_time] + [int(btr) for btr in sorted(av_bitrates.keys())]
 
         reward = sim_grade(m_band, chosen_bitrate)
         # if rebuff_time == False:
@@ -206,15 +206,15 @@ def loop(agent):
         switch_penalty = pow(.92, len(logger.switches))
         score = logger.get_avg_quality() * buffer_penalty * switch_penalty
 
-        score_avg_incremental = score / logger.get_avg_quality()
-        score_buftime_incremental = score * math.log(logger.get_buffer_time()) if logger.get_buffer_time() else 0
-        score_switches_incremental = score * math.log(len(logger.switches)) if len(logger.switches) else 0
+        # score_avg_incremental = score / logger.get_avg_quality()
+        # score_buftime_incremental = score * math.log(logger.get_buffer_time()) if logger.get_buffer_time() else 0
+        # score_switches_incremental = score * math.log(len(logger.switches)) if len(logger.switches) else 0
 
-        reward_avg = (logger.get_avg_quality() - avg_quality) * score_avg_incremental 
-        reward_buftime = (logger.get_buffer_time() - total_time) * score_buftime_incremental
-        reward_switches = (len(logger.switches) - num_switches) * score_switches_incremental
+        # reward_avg = (logger.get_avg_quality() - avg_quality) * score_avg_incremental 
+        # reward_buftime = (logger.get_buffer_time() - total_time) * score_buftime_incremental
+        # reward_switches = (len(logger.switches) - num_switches) * score_switches_incremental
 
-        reward = reward_avg - reward_buftime - reward_switches
+        reward = score - last_score
 
         avg_quality = logger.get_avg_quality()
         total_time = logger.get_buffer_time()
@@ -222,7 +222,7 @@ def loop(agent):
 
         done = chunks_remaining == 1
 
-        return action, reward, next_state, state, done
+        return action, reward, next_state, state, score, done
 
 
     # #cleanup and return
