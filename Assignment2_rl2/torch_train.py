@@ -17,7 +17,7 @@ class DQN(nn.Module):
         self.fc1 = nn.Linear(state_size, 512)
         self.fc2 = nn.Linear(512, 512)
         self.fc3 = nn.Linear(512, 512)
-        self.fc4 = nn.Linear(512, action_size)
+        self.fc7 = nn.Linear(512, action_size)
 
     def forward(self, x):
         x = torch.relu(self.fc1(x))
@@ -105,7 +105,7 @@ def train_agent_test(epoches, save_path="dqn_model.pth"):
 
         agent.replay(64)  # Replay experience and update the model
 
-        if (ep + 1) % 100 == 0:
+        if (ep + 1) % 10 == 0:
             print(f"Episode: {ep+1}/{epoches}, Total Reward: {total_reward}, Epsilon: {agent.epsilon:.2f}, Time: {time.time() - start_time:.2f}")
 
                 # Save the model every certain number of episodes
@@ -177,5 +177,5 @@ def train_agent(epoches, episodes, save_path="dqn_model.pth"):
 if __name__ == "__main__":
     total_time_start = time.time()
     # train_agent(100, 100)  # Train 100 round, train 100 episodes in different tests each round
-    train_agent_test(10000)  # Train 10000 round
+    train_agent_test(100000)  # Train 10000 round
     print(f"Total training time: {time.time() - total_time_start:.2f} seconds")

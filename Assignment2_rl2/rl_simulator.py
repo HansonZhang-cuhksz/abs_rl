@@ -206,6 +206,9 @@ def loop(agent, last_score):
         switch_penalty = pow(.92, len(logger.switches))
         score = logger.get_avg_quality() * buffer_penalty * switch_penalty
 
+        if score < 1:
+            score *= 1000000
+
         # score_avg_incremental = score / logger.get_avg_quality()
         # score_buftime_incremental = score * math.log(logger.get_buffer_time()) if logger.get_buffer_time() else 0
         # score_switches_incremental = score * math.log(len(logger.switches)) if len(logger.switches) else 0

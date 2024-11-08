@@ -2,15 +2,24 @@
 #Buffer-based implementation using 
 #A Buffer-based approach as a reference
 
+import torch_deploy
+
 bitrate = 0 #used to save previous bitrate
 
-def student_entrypoint(Measured_Bandwidth, Previous_Throughput, Buffer_Occupancy, Available_Bitrates, Video_Time, Chunk, Rebuffering_Time, Preferred_Bitrate ):
+def student_entrypoint(Measured_Bandwidth, Previous_Throughput, Buffer_Occupancy, Available_Bitrates, Video_Time, Chunk, Rebuffering_Time, Preferred_Bitrate):
     #student can do whatever they want from here going forward
     global bitrate
     R_i = list(Available_Bitrates.items())
     R_i.sort(key=lambda tup: tup[1] , reverse=True)
-    bitrate = bufferbased(rate_prev=bitrate, buf_now= Buffer_Occupancy, r=Chunk['time']+1,R_i= R_i ) 
+    #bitrate = bufferbased(rate_prev=bitrate, buf_now= Buffer_Occupancy, r=Chunk['time']+1,R_i= R_i ) 
+    bitrate = rl_based(Measured_Bandwidth, Previous_Throughput, Buffer_Occupancy, Video_Time, Rebuffering_Time, R_i)
     return bitrate
+
+def rl_based(m_band, prev_throughput, buf_occ, current_time, rebuff_time, R_i):
+    global torch_deploy
+    state = [m_band, prev_throughput, buf_occ["size"], buf_occ["current"], buf_occ["time"], current_time, rebuff_time] + [int(btr) for btr, _ in R_i]
+    action = torch_deploy.predict(state, [btr for btr, _ in R_i])
+    return R_i[action][0]
 
 #helper function, to find the corresponding size of previous bitrate
 def match(value, list_of_list): 

@@ -36,7 +36,7 @@ def gen_manifest():
             random.randint(245000, 255000),  # Random size for bitrate 1000000
             random.randint(1230000, 1280000) # Random size for bitrate 5000000
         ]
-    print(task)
+    # print(task)
 
 
     # Create the dictionary

@@ -46,7 +46,7 @@ if __name__ == "__main__":
         #Run student process
         student_thread = threading.Thread(target=run_student_code)
         student_thread.start()
-        time.sleep(1)
+        time.sleep(5)
 
         #run simulator process
         output = subprocess.run(['python', 'simulator.py', tracepath, manifestpath, verboseflag], capture_output=True )
